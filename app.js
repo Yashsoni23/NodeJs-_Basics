@@ -70,7 +70,6 @@ app.get("/promise", async (req, res) => {
       reject(error);
     }
   });
-
   promise1.then((data) => {
     console.log(data);
     res.json({ data: data });
