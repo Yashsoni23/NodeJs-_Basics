@@ -60,6 +60,23 @@ app.get("/", async (req, res) => {
   });
 });
 
+app.get("/promise", async (req, res) => {
+  const promise1 = new Promise((resolve, reject) => {
+    try {
+      setTimeout(() => {
+        resolve("I am a promise");
+      }, 5000);
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+  promise1.then((data) => {
+    console.log(data);
+    res.json({ data: data });
+  });
+});
+
 app.get("/user", (req, res) => {
   res.send("I am Yash");
 });
