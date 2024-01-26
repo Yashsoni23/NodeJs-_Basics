@@ -1,8 +1,68 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 
 const app = express();
 const port = 5000;
+let users = [];
 
+app.use(bodyParser());
+app.use(bodyParser({ extended: true }));
+
+// Basics CRUD of APIs
+
+app.get("/users", (req, res) => {
+  try {
+    res.json({
+      status: true,
+      totalUsers: users.length,
+      data: users,
+    });
+  } catch (error) {
+    res.json({
+      status: true,
+      data: error.message,
+    });
+    console.log(error.message);
+  }
+});
+
+app.post("/user/post", async (req, res) => {
+  try {
+    const userData = {
+      name: req.body.name,
+      age: req.body.age,
+      email: req.body.email,
+    };
+
+    users.push(userData);
+    res.json({ status: true, data: userData });
+    console.log(userData);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+app.delete("/user/delete", async (req, res) => {
+  try {
+    users.pop();
+
+    res.json({
+      status: true,
+      totalUsers: users.length,
+      data: users,
+    });
+  } catch (error) {
+    res.json({
+      status: false,
+      totalUsers: users.length,
+      data: "error",
+      error: error.message,
+    });
+    console.log(error.message);
+  }
+});
+
+// Basics introduction of APIs
 app.get("/demo", async (req, res) => {
   try {
     const userData = [
